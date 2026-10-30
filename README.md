@@ -28,7 +28,9 @@ Na carteira e nas movimentações, clicar em um ativo abre um painel com todas a
 
 O comparador coloca dois ativos lado a lado com indicadores de mercado e, quando for o caso, seus dados de posição. As metas acompanham patrimônio ou renda mensal, com barra de progresso calculada a partir da carteira e dos proventos dos últimos 12 meses. Os alertas de preço disparam quando a cotação cruza o valor definido, na próxima atualização de tela ou de preços, sem push.
 
-O arquivo Proventos a Receber da B3 também é aceito: os pagamentos previstos entram na agenda de proventos futuros sem alterar a carteira. O gráfico de patrimônio desenha linhas comparativas de Ibovespa e CDI no mesmo período, e o comparador de ativos mostra um veredito fundamentalista com o motivo da vitória ao passar o mouse.
+O arquivo Proventos a Receber da B3 também é aceito: os pagamentos previstos entram na agenda de proventos futuros sem alterar a carteira.
+
+Existe um piloto de sincronização com a B3: você entra uma vez em um navegador controlado, a sessão fica salva, e os XLSX baixados nessa janela são detectados e importados pelo app sem seletor de arquivos. Detalhes, pré-requisitos e limites estão em [docs/B3_SYNC.md](docs/B3_SYNC.md). O gráfico de patrimônio desenha linhas comparativas de Ibovespa e CDI no mesmo período, e o comparador de ativos mostra um veredito fundamentalista com o motivo da vitória ao passar o mouse.
 
 O histórico desenha o patrimônio observado a partir dos snapshots gerados em cada atualização de preços e em cada importação. Quando ainda não há snapshots suficientes, o gráfico usa o capital aportado derivado das movimentações.
 
@@ -37,10 +39,20 @@ Backup e restauração ficam na aba Movimentações. O navegador guarda uma cóp
 ## Testes
 
 ```bash
-python3 -m unittest discover -s tests -q     # 28 testes de domínio, importação, banco, serviços, setores e benchmarks
+python3 -m unittest discover -s tests -q     # 32 testes de domínio, importação, banco, serviços, setores, benchmarks e inbox B3
 ```
 
-Os testes de importação usam os relatórios reais da B3 como fixture. O fluxo completo de interface foi validado com Playwright contra o servidor local em 55 verificações: importação, cotações, watchlist, preço-alvo, rankings com filtros por setor e segmento, ranking de favoritos, Graham com preço justo e upside, comparador, modal do ativo com gráfico de 30 dias e edição de custo médio, metas, alertas, calculadoras, lançamento manual, desfazer, CSV, backup e restauração, além da sincronização com o SQLite e do carregamento do estado em um navegador limpo.
+Os testes de importação usam os relatórios reais da B3 como fixture. O fluxo completo de interface foi validado com Playwright contra o servidor local em 59 verificações: importação, cotações, watchlist, preço-alvo, rankings com filtros por setor e segmento, ranking de favoritos, Graham com preço justo e upside, comparador, modal do ativo com gráfico de 30 dias e edição de custo médio, metas, alertas, calculadoras, lançamento manual, desfazer, CSV, backup e restauração, além da sincronização com o SQLite e do carregamento do estado em um navegador limpo.
+
+## Docker
+
+Para subir o app em container local:
+
+```bash
+docker compose up --build
+```
+
+O container serve o app e a API. A sincronização com a B3 não roda dentro dele, porque a janela do navegador precisa de sessão gráfica; use a importação manual ou rode o helper no host.
 
 ## Estrutura
 

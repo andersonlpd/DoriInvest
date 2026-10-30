@@ -134,7 +134,9 @@ O backup JSON guarda posições, movimentações, snapshots, favoritos, cotaçõ
 
 ## Páginas
 
-Visão geral mostra patrimônio, custo, resultado aberto, resultado realizado, proventos, gráfico e alocação. Carteira lista posições com filtros por classe e busca, e traz a watchlist e os alertas. Proventos mostra recebidos, futuros e o gráfico mensal dos últimos 12 meses, com escala em reais e linhas de grade. Metas, Movimentações, Análise, Importar B3 e Calculadoras completam a navegação.
+Visão geral mostra patrimônio, custo, resultado aberto, resultado realizado, proventos, gráfico e alocação. Carteira lista posições com filtros por classe e busca, e traz a watchlist e os alertas. Proventos mostra recebidos, futuros e o gráfico mensal dos últimos 12 meses, com escala em reais e linhas de grade.
+
+Importar B3 também abriga o piloto de sincronização automática. O botão Conectar B3 abre um Chromium com perfil persistente para login manual, sem guardar senha. O botão Abrir portal reusa a sessão e mantém a janela aberta. Qualquer XLSX baixado nessa janela é salvo em `data/b3-inbox` e listado no card, com botão para analisar em lote e aplicar. Os arquivos usados são movidos para `data/b3-inbox/processed`. O piloto não agenda execuções, não clica em menus do portal e não roda em container sem tela. O passo a passo está em `docs/B3_SYNC.md`. Metas, Movimentações, Análise, Importar B3 e Calculadoras completam a navegação.
 
 ## Limitações
 
@@ -146,4 +148,4 @@ Alertas não têm notificação fora do app. O disparo acontece quando a tela é
 
 ## Testes
 
-Os testes unitários cobrem importação, repositório SQLite, serviços, classificação setorial e o parser de histórico da brapi (28 casos). O fluxo completo foi validado com Playwright contra o servidor local em 55 verificações: importação de dois XLSX, cotações, watchlist, preço-alvo, rankings com filtros, favoritos e Graham com preço justo e upside, comparador, modal do ativo com gráfico de 30 dias, edição de custo médio e nova movimentação pré-preenchida, metas, alertas, calculadoras, lançamento manual, desfazer, CSV, backup e restauração, sincronização com o SQLite e carregamento em navegador limpo.
+Os testes unitários cobrem importação, repositório SQLite, serviços, classificação setorial e o parser de histórico da brapi (32 casos). O fluxo completo foi validado com Playwright contra o servidor local em 59 verificações: importação de dois XLSX, cotações, watchlist, preço-alvo, rankings com filtros, favoritos e Graham com preço justo e upside, comparador, modal do ativo com gráfico de 30 dias, edição de custo médio e nova movimentação pré-preenchida, metas, alertas, calculadoras, lançamento manual, desfazer, CSV, backup e restauração, sincronização com o SQLite e carregamento em navegador limpo.

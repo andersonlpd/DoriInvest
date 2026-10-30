@@ -122,6 +122,7 @@ A carteira começa e permanece vazia; tudo que aparece na tela deriva de operaç
 - [x] Metas: patrimônio ou renda mensal, com progresso calculado da carteira e dos proventos dos últimos 12 meses.
 - [x] Alertas de preço: condições acima ou abaixo de um valor, avaliadas na renderização da tela e nas atualizações de cotações, sem push.
 - [x] Proventos futuros: o arquivo Proventos a Receber da B3 é importado e alimenta a agenda de pagamentos previstos, sem alterar a carteira. A projeção de proventos para ativos sem arquivo da B3 segue fora do escopo gratuito.
+- [x] Piloto de sincronização B3: navegador persistente com login manual, captura automática dos XLSX baixados na janela, inbox em `data/b3-inbox` e importação em lote. Não guarda senha e não automatiza menus do portal.
 - [x] Detalhe do ativo: clicar em um ticker na carteira ou nas movimentações abre o histórico de operações, o gráfico de 30 dias com série da brapi, a edição do custo médio e o atalho para lançar nova movimentação já preenchida.
 - [ ] IRPF em massa: organização local de operações por mês e ano é viável; cálculo de imposto e DARF seguem fora do escopo até haver regras oficiais validadas e revisão especializada.
 - **Fora do escopo gratuito:** carteiras recomendadas, score proprietário e IA, fundamentais por papel em feed licenciado e screener completo sobre universo pago.

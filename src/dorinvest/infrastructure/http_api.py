@@ -73,6 +73,23 @@ def build_handler(services: dict, frontend_dir: Path, data_dir: Path) -> type:
                     return self._json(422, {"error": str(error)})
                 except Exception:
                     return self._json(503, {"error": "Histórico de preços indisponível agora."})
+            if self.path == "/api/b3/inbox":
+                return self._json(200, services["b3sync"].status())
+            if self.path == "/api/b3/inbox/file":
+                name = (query.get("name") or [""])[0]
+                try:
+                    path = services["b3sync"].resolve(name)
+                except ValueError as error:
+                    return self._json(422, {"error": str(error)})
+                body = path.read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                self.send_header("Content-Length", str(len(body)))
+                self.send_header("Content-Disposition", 'attachment; filename="{}"'.format(path.name))
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.end_headers()
+                self.wfile.write(body)
+                return
             if self.path == "/api/benchmarks":
                 start = (query.get("start") or [""])[0]
                 end = (query.get("end") or [""])[0]
@@ -110,6 +127,8 @@ def build_handler(services: dict, frontend_dir: Path, data_dir: Path) -> type:
                 "/api/quotes": ("quotes", "Não consegui processar a solicitação de cotações."),
                 "/api/state": ("state", "Não consegui salvar o estado."),
                 "/api/b3/import": ("import", "Não consegui ler esse XLSX. Nenhum dado da carteira foi alterado."),
+                "/api/b3/sync": ("b3sync_start", "Não consegui iniciar a sincronização com a B3."),
+                "/api/b3/inbox/ack": ("b3sync_ack", "Não consegui arquivar os arquivos importados."),
             }
             route = routes.get(self.path)
             if route is None:
@@ -118,6 +137,12 @@ def build_handler(services: dict, frontend_dir: Path, data_dir: Path) -> type:
             try:
                 length = int(self.headers.get("Content-Length", "0"))
                 raw = self.rfile.read(length) if length else b""
+                if service_name == "b3sync_start":
+                    payload = json.loads(raw) if raw else {}
+                    return self._json(200, services["b3sync"].start(str(payload.get("mode", ""))))
+                if service_name == "b3sync_ack":
+                    payload = json.loads(raw) if raw else {}
+                    return self._json(200, {"moved": services["b3sync"].ack(payload.get("files") or [])})
                 if service_name == "log":
                     return self._json(200, {"saved": services["log"].record(raw)})
                 if service_name == "quotes":

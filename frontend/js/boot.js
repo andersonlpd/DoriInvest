@@ -8,6 +8,7 @@ import {renderCalculators} from './panels/tools.js';
 import './b3.js';
 import './panels/compare.js';
 import './panels/asset.js';
+import './panels/b3sync.js';
 
 // puxa o estado do SQLite quando o navegador está vazio (primeiro acesso ou troca de máquina)
 if(!S.positions.length&&!S.transactions.length){try{const response=await fetch('/api/state');if(response.ok)loadState(await response.json())}catch{}}

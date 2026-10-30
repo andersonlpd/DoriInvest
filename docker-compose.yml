@@ -1,0 +1,10 @@
+services:
+  doriinvest:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      BRAPI_API_KEY: ${BRAPI_API_KEY:-}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

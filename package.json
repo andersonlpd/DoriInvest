@@ -1,0 +1,12 @@
+{
+  "name": "doriinvest-tools",
+  "private": true,
+  "description": "Helpers locais do DoriInvest (sincronização B3), fora do runtime Python.",
+  "type": "module",
+  "scripts": {
+    "b3sync": "node tools/b3sync.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}

@@ -151,6 +151,7 @@ function applyB3Import() {
     document.getElementById('b3-import-status').textContent = incomeOnly
       ? 'Proventos previstos adicionados: ' + appliedTxs + ' lançamento(s); a carteira não foi alterada.'
       : 'Relatório B3 aplicado: ' + S.positions.filter(p => p.quantity > 0).length + ' posições com saldo na carteira' + (pmApplied ? `; custo médio reconstruído nas movimentações para ${pmApplied} ativos.` : '.');
+    document.dispatchEvent(new CustomEvent('dorinvest:b3-applied'));
     reportClientDebug('apply-success', {
       snaps: S.marketSnapshots.length,
       pmApplied,

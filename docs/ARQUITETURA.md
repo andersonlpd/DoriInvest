@@ -15,6 +15,8 @@ O projeto é pequeno e roda em um único processo Python. A organização segue 
    adapters/sectors.py       adapters/b3_xlsx.py  adapters/file_log.py
 ```
 
+O piloto de sincronização fica fora do runtime Python. `tools/b3sync.mjs` usa Playwright para abrir um perfil persistente, capturar downloads e escrever `data/b3-sync.json`. `application/b3_sync.py` orquestra esse helper, lista a inbox, entrega arquivos e arquiva o que foi aplicado. O import continua sendo o mesmo, então o piloto é uma porta de entrada, não um segundo pipeline.
+
 `main.py` monta tudo (`wire`) e sobe o servidor. Trocar SQLite por outro banco significa implementar `StateRepository` de novo; trocar brapi por outra fonte significa implementar `QuoteProvider`. Nenhuma camada de aplicação importa `http.server` ou `sqlite3`.
 
 ## Domínio
@@ -43,6 +45,10 @@ No arranque, `boot.js` busca `GET /api/state` somente quando o navegador está s
 | `/api/benchmarks` | GET | Ibovespa e CDI no intervalo do gráfico de patrimônio, com cache de 6 horas |
 | `/api/rankings` | GET | listagem do Fundamentus enriquecida com setor, subsetor e segmento |
 | `/api/b3/import` | POST | recebe o XLSX e devolve posições, movimentações e metadados |
+| `/api/b3/inbox` | GET | status do piloto de sincronização e arquivos capturados |
+| `/api/b3/inbox/file` | GET | entrega um XLSX da inbox para o importador |
+| `/api/b3/inbox/ack` | POST | move arquivos aplicados para a pasta processed |
+| `/api/b3/sync` | POST | inicia o helper Node que abre o navegador controlado |
 | `/api/log` | POST | registra erros do navegador em `data/client-errors.log` |
 
 `GET /api/state` nunca devolve 404 em banco vazio: retorna as listas vazias com `b3SyncMeta` e `quoteSyncMeta` nulos. O `POST` valida tamanho (20 MB), chaves permitidas, ticker, quantidade e formato de data antes de gravar. Para metas, exige tipo `patrimonio` ou `renda` e alvo numérico maior que zero. Para alertas, exige ticker no padrão da B3, preço positivo e direção `acima` ou `abaixo`.

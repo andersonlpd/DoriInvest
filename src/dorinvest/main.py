@@ -16,6 +16,7 @@ from .adapters.file_log import FileEventLog
 from .adapters.fundamentus import FundamentusMarketSource
 from .adapters.sectors import B3SectorMap
 from .adapters.sqlite_state import SqliteStateRepository
+from .application.b3_sync import B3SyncService
 from .application.services import BenchmarkService, ClientLogService, ImportService, MarketService, PortfolioService, QuoteService
 from .infrastructure.http_api import build_handler
 
@@ -33,6 +34,7 @@ def wire(db_path: Path) -> dict:
         "quotes": QuoteService(provider),
         "market": MarketService(FundamentusMarketSource(), B3SectorMap()),
         "benchmarks": BenchmarkService(BenchmarkSource(provider)),
+        "b3sync": B3SyncService(DATA_DIR, ROOT),
         "import": ImportService(B3XlsxImporter()),
         "log": ClientLogService(FileEventLog(DATA_DIR / "client-errors.log")),
     }

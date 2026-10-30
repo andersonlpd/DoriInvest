@@ -132,3 +132,8 @@ th[title]{cursor:help}
 .brand-word .brand-invest{margin-left:6px}
 .brand-word{display:inline-flex;align-items:baseline;gap:5px;letter-spacing:0}
 .brand-word .brand-invest{margin-left:0}
+
+/* Sincronização automática B3 (piloto) */
+.b3-sync-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 10px}
+.b3-sync-files{margin:8px 0}
+.b3-sync-files table td:first-child{font-weight:600;color:#2c3d32}

@@ -1,0 +1,7 @@
+.git
+data
+legacy
+node_modules
+*.apk
+__pycache__
+*.pyc
