@@ -132,3 +132,13 @@ th[title]{cursor:help}
 .brand-word .brand-invest{margin-left:6px}
 .brand-word{display:inline-flex;align-items:baseline;gap:5px;letter-spacing:0}
 .brand-word .brand-invest{margin-left:0}
+
+/* Rentabilidade comparada (card separado) */
+.performance-card{margin-bottom:14px}
+.chart-zero{fill:none;stroke:#c3cec4;stroke-width:1;stroke-dasharray:4 4}
+#performance-chart .chart-line{stroke:#25875e;stroke-width:2.5}
+#performance-legend .portfolio{color:#25875e}
+
+/* Melhor e pior por critério no comparador */
+#compare-body td.compare-win{background:#e9f7ed;color:#0e7a4f;font-weight:700}
+#compare-body td.compare-lose{background:#fbeceb;color:#b0473f;font-weight:600}
