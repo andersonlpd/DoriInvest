@@ -23,6 +23,16 @@ const METRICS = [
   ['Segmento', row => row.segmento || '—']
 ];
 
+const CATEGORY_RULES = {
+  'P/L': {direction: 'lower', get: row => row.pl > 0 ? row.pl : null},
+  'P/VP': {direction: 'lower', get: row => row.pvp > 0 ? row.pvp : null},
+  'P/SR': {direction: 'lower', get: row => row.psr > 0 ? row.psr : null},
+  'DY (12m)': {direction: 'higher', get: row => row.dy > 0 ? row.dy : null},
+  'ROE': {direction: 'higher', get: row => row.roe != null ? row.roe : null},
+  'ROIC': {direction: 'higher', get: row => row.roic != null ? row.roic : null},
+  'Liquidez média (2m)': {direction: 'higher', get: row => row.liq2m > 0 ? row.liq2m : null}
+};
+
 const CRITERIA = [
   {label: 'P/L', weight: 2, direction: 'lower', get: row => row.pl > 0 ? row.pl : null, format: value => value.toLocaleString('pt-BR', {maximumFractionDigits: 1})},
   {label: 'P/VP', weight: 2, direction: 'lower', get: row => row.pvp > 0 ? row.pvp : null, format: value => value.toLocaleString('pt-BR', {maximumFractionDigits: 2})},
@@ -170,6 +180,20 @@ function renderCompare() {
     first.textContent = format(rowA);
     const second = document.createElement('td');
     second.textContent = format(rowB);
+    const rule = CATEGORY_RULES[label];
+    if (rule) {
+      const valueA = rule.get(rowA),
+        valueB = rule.get(rowB);
+      if (valueA != null && valueB != null && Math.abs(valueA - valueB) > 1e-9) {
+        const betterIsA = rule.direction === 'lower' ? valueA < valueB : valueA > valueB,
+          winner = betterIsA ? first : second,
+          loser = betterIsA ? second : first;
+        winner.classList.add('compare-win');
+        winner.title = 'Melhor no critério';
+        loser.classList.add('compare-lose');
+        loser.title = 'Pior no critério';
+      }
+    }
     tr.append(head, first, second);
     body.append(tr);
   });
@@ -195,7 +219,7 @@ function renderCompare() {
     });
   }
   renderVerdict(compareVerdict(rowA, rowB), tickerA, tickerB);
-  note.textContent = 'Fundamentos do Fundamentus com defasagem de até 6 h; classificação setorial da B3. Números aproximados, não são recomendação.';
+  note.textContent = 'Fundamentos do Fundamentus com defasagem de até 6 h; classificação setorial da B3. Verde marca o melhor valor do critério, vermelho o pior. Números aproximados, não são recomendação.';
 }
 
 async function loadCompareRows() {

@@ -106,7 +106,7 @@ Os filtros de setor e segmento vêm do snapshot da B3 e se combinam com a lista 
 
 O comparador coloca dois tickers lado a lado com cotação, P/L, P/VP, P/SR, DY, ROE, ROIC, liquidez, patrimônio líquido, valor de mercado aproximado, setor e segmento. Se algum dos ativos estiver na sua carteira, a tabela acrescenta quantidade, custo médio, preço atual e resultado aberto.
 
-Acima da tabela, um veredito mostra qual ativo ganha na análise fundamentalista e o placar. A conta usa sete critérios: P/L e P/VP (menor é melhor, peso 2 cada), DY, ROE (maior é melhor, peso 2 cada), ROIC e margem líquida (peso 1,5 cada) e liquidez média (peso 0,5). Valores ausentes não pontuam para o lado sem dado. Ao passar o mouse ou focar o veredito, uma lista mostra cada vantagem do vencedor com os valores comparados e os pontos somados. O cabeçalho do ativo vencedor fica sublinhado. Empates técnicos são declarados como tal, e o texto lembra que a conta não é recomendação.
+Na tabela, o melhor valor de cada critério fica com fundo verde e o pior com fundo vermelho, com dica ao passar o mouse. Critérios sem direção clara, como tamanho, setor e segmento, ficam neutros. Acima da tabela, um veredito mostra qual ativo ganha na análise fundamentalista e o placar. A conta usa sete critérios: P/L e P/VP (menor é melhor, peso 2 cada), DY, ROE (maior é melhor, peso 2 cada), ROIC e margem líquida (peso 1,5 cada) e liquidez média (peso 0,5). Valores ausentes não pontuam para o lado sem dado. Ao passar o mouse ou focar o veredito, uma lista mostra cada vantagem do vencedor com os valores comparados e os pontos somados. O cabeçalho do ativo vencedor fica sublinhado. Empates técnicos são declarados como tal, e o texto lembra que a conta não é recomendação.
 
 Os dados vêm do mesmo `/api/rankings`, carregados na primeira interação com os seletores. Não é possível comparar o mesmo ativo duas vezes. Cada nome de indicador tem uma explicação curta ao passar o mouse.
 
@@ -120,9 +120,9 @@ Todas usam apenas os parâmetros digitados. Os resultados são projeções matem
 
 ## Histórico e retorno observado
 
-O gráfico de patrimônio usa os snapshots gravados em importações e atualizações de cotações. Com dois ou mais pontos, desenha a linha do patrimônio observado. Com menos de dois, cai para a série de capital líquido derivada das movimentações (aportes menos resgates).
+O gráfico principal usa os snapshots gravados em importações e atualizações de cotações e mostra apenas o patrimônio observado. Com menos de dois pontos, cai para a série de capital líquido derivada das movimentações (aportes menos resgates).
 
-Quando há dois ou mais snapshots, o gráfico busca o Ibovespa e o CDI no mesmo intervalo e desenha duas linhas comparativas normalizadas no primeiro ponto da carteira. A legenda mostra a variação de cada benchmark no período. O CDI vem do Banco Central (série diária acumulada) e o Ibovespa vem do Yahoo Finance, com fallback para os três meses disponíveis na brapi gratuita. Se uma das séries não estiver disponível, a linha correspondente é omitida sem derrubar o gráfico.
+Um card separado de Rentabilidade comparada mostra a variação percentual desde o primeiro snapshot para três séries: carteira, Ibovespa e CDI. O eixo vertical fica em percentual e a legenda mostra o resultado de cada série no período. A comparação não ajusta aportes e resgates: ela mede a variação do patrimônio observado, não o retorno ponderado por fluxo de caixa. O CDI vem do Banco Central (série diária acumulada) e o Ibovespa vem do Yahoo Finance, com fallback para os três meses disponíveis na brapi gratuita. Se um benchmark não estiver disponível, a linha correspondente é omitida e a carteira continua no gráfico.
 
 O card de retorno observado na Análise calcula o retorno total entre o primeiro e o último snapshot e, quando a janela passa de um ano, mostra o CAGR anualizado. Dias entre observações abaixo de uma semana não geram CAGR.
 
@@ -146,4 +146,4 @@ Alertas não têm notificação fora do app. O disparo acontece quando a tela é
 
 ## Testes
 
-Os testes unitários cobrem importação, repositório SQLite, serviços, classificação setorial e o parser de histórico da brapi (28 casos). O fluxo completo foi validado com Playwright contra o servidor local em 55 verificações: importação de dois XLSX, cotações, watchlist, preço-alvo, rankings com filtros, favoritos e Graham com preço justo e upside, comparador, modal do ativo com gráfico de 30 dias, edição de custo médio e nova movimentação pré-preenchida, metas, alertas, calculadoras, lançamento manual, desfazer, CSV, backup e restauração, sincronização com o SQLite e carregamento em navegador limpo.
+Os testes unitários cobrem importação, repositório SQLite, serviços, classificação setorial e o parser de histórico da brapi (28 casos). O fluxo completo foi validado com Playwright contra o servidor local em 52 verificações: importação de dois XLSX, cotações, watchlist, preço-alvo, rankings com filtros, favoritos e Graham com preço justo e upside, comparador, modal do ativo com gráfico de 30 dias, edição de custo médio e nova movimentação pré-preenchida, metas, alertas, calculadoras, lançamento manual, desfazer, CSV, backup e restauração, sincronização com o SQLite e carregamento em navegador limpo.
