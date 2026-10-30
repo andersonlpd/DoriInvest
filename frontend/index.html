@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#13251f">
+  <title>DoriInvest | sua carteira</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1f18'/%3E%3Cpath d='M14 44l10-13 8 7 16-20' stroke='%23d9f36a' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='48' cy='18' r='6' fill='%23d9f36a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64" width="21" height="21" fill="none"><path d="M12 46l11-14 8 7 17-22" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48" cy="17" r="7" fill="currentColor"/></svg></span><span class="brand-word"><span class="brand-dori">Dori</span><span class="brand-invest">Invest</span></span></div>
+      <div class="nav-label">Seu patrimônio</div>
+      <nav class="nav">
+        <button class="active" data-page="overview"><span class="nav-icon">◫</span>Visão geral</button>
+        <button data-page="portfolio"><span class="nav-icon">▤</span>Carteira</button>
+        <button data-page="dividends"><span class="nav-icon">↗</span>Proventos</button>
+        <button data-page="goals"><span class="nav-icon">◎</span>Metas</button>
+        <button data-page="activity"><span class="nav-icon">◷</span>Movimentações</button>
+        <button data-page="analysis"><span class="nav-icon">⌁</span>Análise</button>
+      </nav>
+      <div class="nav-label">Dados e planejamento</div>
+      <nav class="nav">
+        <button data-page="b3"><span class="nav-icon">⇧</span>Importar B3</button>
+        <button data-page="tools"><span class="nav-icon">∑</span>Calculadoras</button>
+      </nav>
+      <div class="side-bottom">
+        <div class="sync-card">
+          <div class="sync-top"><span>Sincronização B3</span><span class="status-dot" aria-label="Desconectada"></span></div>
+          <p>Dados armazenados neste navegador. Importe o Excel da B3 ou lance operações.</p>
+          <button data-page="b3">Importar relatório B3</button>
+        </div>
+        <div class="profile"><div class="avatar">L</div><div><strong>Carteira local</strong><small>Neste navegador</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb">Finanças pessoais <span aria-hidden="true">/</span> <strong id="crumb-current">Visão geral</strong></div>
+        <div class="top-actions"><button class="icon-button" aria-label="Ajuda">?</button></div>
+      </header>
+      <div class="page-heading">
+        <div><div class="eyebrow" id="page-eyebrow">Seu dinheiro, em perspectiva</div><h1 id="page-title">Visão geral</h1><p id="page-subtitle">Acompanhe a evolução da sua carteira em um só lugar.</p></div>
+        <div class="heading-actions"><button class="button" id="export-button">Exportar CSV</button><button class="button primary" id="add-transaction">＋ Lançar movimentação</button></div>
+      </div>
+      <div class="quote-toolbar"><span id="quote-status" role="status" aria-live="polite">Cotações BRAPI grátis: atraso aproximado de 30 minutos. Renda fixa e ativos sem cobertura usam preço manual/importado.</span><a class="text-link" href="https://brapi.dev/dashboard" target="_blank" rel="noreferrer">Chave grátis ↗</a><button class="button" id="refresh-quotes" type="button">↻ Atualizar cotações</button></div>
+
+      <section class="panel active" data-view="overview" aria-label="Resumo da carteira">
+        <div class="metrics">
+          <article class="card metric"><div class="metric-head">Patrimônio atual <span class="metric-icon">◈</span></div><div class="metric-value" data-metric="market">—</div><div class="metric-foot" id="market-coverage">Nenhuma posição registrada</div></article>
+          <article class="card metric"><div class="metric-head">Custo registrado <span class="metric-icon">↗</span></div><div class="metric-value" data-metric="invested">—</div><div class="metric-foot" id="cost-coverage">Custo médio informado nas posições</div></article>
+          <article class="card metric"><div class="metric-head">Resultado em aberto <span class="metric-icon">⌁</span></div><div class="metric-value" data-metric="profit">—</div><div class="metric-foot"><span data-metric="return">—</span> somente sobre custo conhecido</div></article>
+          <article class="card metric"><div class="metric-head">Resultado realizado <span class="metric-icon">✓</span></div><div class="metric-value" data-metric="realized">—</div><div class="metric-foot" id="realized-coverage">Vendas com custo conhecido</div></article>
+          <article class="card metric"><div class="metric-head">Proventos recebidos <span class="metric-icon">＄</span></div><div class="metric-value" data-metric="dividends">—</div><div class="metric-foot">lançamentos registrados</div></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="card card-pad">
+            <div class="card-title"><div><h2 id="history-title">Patrimônio observado</h2><p id="history-subtitle">Snapshots registrados nas atualizações de dados</p></div></div>
+            <div class="chart-summary"><strong id="history-value">—</strong><span id="history-status">A série começa após a primeira cotação ou importação.</span></div>
+            <div class="chart-wrap"><p id="history-empty" class="empty">Atualize cotações ou importe um XLSX da B3 para iniciar o histórico.</p><svg id="history-chart" viewBox="0 0 700 190" preserveAspectRatio="none" role="img" aria-label="Histórico observado do valor da carteira" hidden><defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#64a978" stop-opacity=".2"/><stop offset="1" stop-color="#64a978" stop-opacity="0"/></linearGradient></defs><path class="chart-grid" d="M0 35H700M0 80H700M0 125H700M0 170H700"/><path id="chart-area" class="chart-fill"/><path id="chart-line" class="chart-line"/><path id="chart-line-ibov" class="chart-extra chart-ibov"/><path id="chart-line-cdi" class="chart-extra chart-cdi"/><circle id="chart-dot" class="chart-dot" r="5"/></svg><div class="chart-vaxis" id="chart-vaxis" aria-hidden="true"></div></div>
+            <div class="chart-legend" id="chart-legend" hidden><span class="legend-line portfolio">Carteira</span><span class="legend-line ibov" data-legend="ibov">Ibovespa</span><span class="legend-line cdi" data-legend="cdi">CDI</span></div>
+            <div class="chart-labels"><span id="history-start">—</span><span id="history-end">—</span></div>
+          </article>
+          <article class="card card-pad allocation-card">
+            <div class="card-title"><div><h2>Alocação da carteira</h2><p>Distribuição por classe de ativo</p></div><button class="text-link" data-page="analysis">Ver análise →</button></div>
+            <div class="allocation-content"><div class="donut" id="allocation-donut"><div class="donut-hole"><strong id="allocation-total">—</strong><small>patrimônio</small></div></div><div class="legend" id="allocation-legend"></div></div>
+            <div class="alloc-note">Use a distribuição como referência para acompanhar sua estratégia.</div>
+          </article>
+        </div>
+        <article class="card section-card">
+          <div class="section-head"><div class="section-title"><h2>Maiores posições</h2><p>Posições com maior valor de mercado</p></div><button class="text-link" data-page="portfolio">Ver carteira completa →</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Ativo</th><th>Quantidade</th><th>Preço médio</th><th>Preço atual</th><th>Valor atual</th><th>Resultado</th></tr></thead><tbody id="overview-assets"></tbody></table></div>
+        </article>
+        <div class="bottom-grid">
+          <article class="card"><div class="section-head"><div class="section-title"><h2>Proventos futuros informados</h2><p>Somente eventos lançados ou importados</p></div><button class="text-link" data-page="dividends">Ver proventos →</button></div><div class="dividend-list" id="upcoming-list"></div></article>
+          <article class="card"><div class="section-head"><div class="section-title"><h2>Metas</h2><p>Objetivos da carteira</p></div><button class="text-link" data-page="goals">Ver metas →</button></div><div class="empty">Nenhuma meta registrada.</div></article>
+        </div>
+      </section>
+
+      <section class="panel" data-view="portfolio" aria-label="Carteira de investimentos">
+        <div class="page-cards"><article class="card simple-card"><h3>Patrimônio</h3><p>Soma das posições atuais</p><strong class="big" data-metric="market">—</strong></article><article class="card simple-card"><h3>Ativos na carteira</h3><p>Posições com saldo positivo</p><strong class="big" id="asset-count">—</strong></article><article class="card simple-card"><h3>Resultado não realizado</h3><p>Valorização sobre o custo médio</p><strong class="big" data-metric="profit">—</strong></article></div>
+        <article class="card"><div class="page-toolbar"><div class="filters" role="group" aria-label="Filtrar por classe"><button class="filter-button active" data-filter="Todos">Todos</button><button class="filter-button" data-filter="Ações">Ações</button><button class="filter-button" data-filter="FIIs">FIIs</button><button class="filter-button" data-filter="ETFs">ETFs</button><button class="filter-button" data-filter="BDRs">BDRs</button><button class="filter-button" data-filter="Fiagros">Fiagros</button><button class="filter-button" data-filter="Renda fixa">Renda fixa</button></div><label><span class="sr-only">Buscar ativo</span><input class="search" id="asset-search" type="search" placeholder="Buscar ativo ou nome…"></label></div><div class="table-wrap"><table><thead><tr><th>Ativo</th><th>Quantidade</th><th>Preço médio</th><th>Preço atual</th><th>Investido</th><th>Valor atual</th><th>Resultado</th></tr></thead><tbody id="portfolio-assets"></tbody></table></div></article>
+      <article class="card section-card"><div class="page-toolbar"><div><strong>Minha watchlist</strong><p class="screen-summary">Cotações de ativos que você acompanha, sem entrar na carteira.</p></div><div style="display:flex;gap:8px"><input class="watch-add" id="watch-input" type="text" placeholder="Ticker (ex.: PETR4)" maxlength="12"><button class="button" id="watch-add" type="button">Acompanhar</button><button class="button" id="watch-refresh" type="button">Atualizar preços</button></div></div><div class="table-wrap"><table><thead><tr><th>Ativo</th><th>Classe</th><th>Preço</th><th></th></tr></thead><tbody id="watch-body"></tbody></table><p class="empty" id="watch-empty">Nenhum ativo na watchlist. Digite um ticker e clique em Acompanhar.</p></div></article>
+      <article class="card card-pad local-backup"><div class="card-title"><div><h2>Alertas de preço</h2><p>Sem push: o alerta é avaliado quando as cotações atualizam ou a página abre.</p></div></div><div class="form-grid" style="margin-top:12px">
+          <label class="field"><span>Ticker</span><input id="alert-ticker" maxlength="8" placeholder="PETR4"></label>
+          <label class="field"><span>Condição</span><select id="alert-direction"><option value="acima">Preço acima de</option><option value="abaixo">Preço abaixo de</option></select></label>
+          <label class="field"><span>Preço (R$)</span><input id="alert-price" type="number" min="0.01" step="0.01" placeholder="0"></label>
+          <div class="form-actions"><button class="button primary" id="alert-add" type="button">Criar alerta</button></div>
+        </div><div class="activity-list" id="alert-list" style="padding:0"></div><p class="empty" id="alert-empty">Nenhum alerta criado.</p></article></section>
+
+      <section class="panel" data-view="dividends" aria-label="Proventos">
+        <div class="page-cards"><article class="card simple-card"><h3>Recebido</h3><p>Proventos registrados ou importados</p><strong class="big" data-metric="dividends">—</strong></article><article class="card simple-card"><h3>Futuros informados</h3><p>Eventos com data futura no histórico</p><strong class="big" id="upcoming-count">0</strong></article><article class="card simple-card"><h3>Ativos pagadores</h3><p>Ativos com proventos registrados</p><strong class="big" id="dividend-asset-count">0</strong></article></div>
+        <div class="dashboard-grid"><article class="card"><div class="section-head"><div class="section-title"><h2>Eventos futuros informados</h2><p>Lançamentos e importações locais</p></div></div><div class="dividend-list" id="dividend-calendar"></div></article><article class="card"><div class="section-head"><div class="section-title"><h2>Proventos por mês</h2><p>Valores do histórico registrado</p></div></div><div class="bar-chart" id="dividend-month-chart"></div></article></div>
+      </section>
+
+      <section class="panel" data-view="goals" aria-label="Metas financeiras">
+        <article class="card card-pad"><div class="card-title"><div><h2>Metas</h2><p>Acompanhe patrimônio e renda mensal desejados</p></div><button class="button primary" id="goal-add" type="button">＋ Nova meta</button></div><div class="goal-list" id="goal-list" style="margin-top:14px"></div><p class="empty" id="goal-empty">Nenhuma meta registrada. Crie uma meta de patrimônio ou de renda mensal.</p></article>
+        <article class="card card-pad" id="goal-form-card" hidden><form class="form-grid" id="goal-form">
+          <label class="field full"><span>Descrição</span><input id="goal-title" maxlength="60" placeholder="Ex.: Primeiro milhão"></label>
+          <label class="field"><span>Tipo</span><select id="goal-type"><option value="patrimonio">Patrimônio</option><option value="renda">Renda mensal</option></select></label>
+          <label class="field"><span>Valor alvo (R$)</span><input id="goal-target" type="number" min="1" step="any" placeholder="0"></label>
+          <div class="form-actions full"><button type="button" class="button" id="goal-cancel">Cancelar</button><button type="submit" class="button primary">Salvar meta</button></div>
+        </form></article>
+      </section>
+
+      <section class="panel" data-view="activity" aria-label="Histórico de movimentações">
+        <article class="card"><div class="section-head"><div class="section-title"><h2>Histórico da carteira</h2><p>Compras, vendas e proventos lançados localmente</p></div><button class="button" id="activity-add">＋ Nova movimentação</button></div><div class="activity-list" id="activity-list"></div></article>
+        <article class="card card-pad local-backup"><h2>Backup local</h2><p>Exporte posições, operações, cotações e snapshots para guardar uma cópia neste dispositivo.</p><div class="form-actions"><button class="button" id="backup-export" type="button">Exportar backup</button><label class="button" for="backup-file">Restaurar backup</label><input id="backup-file" type="file" accept="application/json,.json" hidden></div></article>
+      </section>
+
+      <section class="panel" data-view="analysis" aria-label="Análise da carteira">
+        <div class="page-cards"><article class="card simple-card"><h3>Maior concentração</h3><p>Classe com maior peso</p><strong class="big" id="largest-class">—</strong></article><article class="card simple-card"><h3>Posição principal</h3><p>Maior valor na carteira</p><strong class="big" id="largest-asset">—</strong></article><article class="card simple-card"><h3>Classes de ativos</h3><p>Presentes na carteira</p><strong class="big" id="class-count">—</strong></article></div>
+        <div class="insight-grid"><article class="card insight"><div class="insight-mark">◉</div><h3>Diversificação por classe</h3><p id="insight-allocation">—</p></article><article class="card insight"><div class="insight-mark">↗</div><h3>Resultado não realizado</h3><p id="insight-return">—</p></article><article class="card insight"><div class="insight-mark">▤</div><h3>Histórico da carteira</h3><p id="insight-history">Registre ou importe operações para formar o histórico.</p></article><article class="card insight"><div class="insight-mark">◷</div><h3>Cobertura de preços</h3><p id="insight-quotes">—</p></article><article class="card insight"><div class="insight-mark">％</div><h3>Retorno da carteira observada</h3><p id="insight-cagr">O histórico aparece após duas observações do patrimônio (linhas B3 ou cotações).</p></article></div>
+      </section>
+
+      <section class="panel" data-view="b3" aria-label="Importar custódia da B3">
+        <article class="card b3-callout"><div><div class="eyebrow">Custódia B3</div><h2>Importe sua posição</h2><p>Baixe o Relatório Consolidado em Excel na Área do Investidor. A importação mantém o arquivo neste computador e mostra uma prévia antes de atualizar a carteira.</p><a class="text-link" href="https://atendimento.b3.com.br/atendimento?id=kb_article_b3&amp;parent_id=83cbb04c1b7f281015b36538fa4bcb66&amp;sys_id=113f19934749f61051674a33036d43a5" target="_blank" rel="noreferrer">Instruções do relatório B3 ↗</a></div><div class="callout-visual"><strong>⇧</strong><span id="b3-sync-status">Importação manual</span><span id="b3-sync-details" style="margin-top:8px;color:#88947d">Aguardando relatório Excel</span></div></article>
+        <article class="card card-pad b3-importer" aria-labelledby="b3-import-title"><div class="card-title"><div><h2 id="b3-import-title">Importar relatório B3</h2><p>Confira as posições e movimentações antes de aplicar.</p></div></div><div class="b3-import-controls"><label class="field"><span>Arquivos Excel (.xlsx) — pode selecionar vários</span><input id="b3-file" type="file" multiple accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"></label><button class="button primary" id="b3-read-file" type="button" disabled>Pré-visualizar</button></div><p id="b3-import-status" class="screen-summary" role="status" aria-live="polite">O arquivo é analisado pelo servidor local; nada é enviado a terceiros. · build 30/10 v19</p><div id="b3-import-preview" class="b3-import-preview" hidden><div class="preview-heading"><strong id="b3-preview-summary"></strong><span id="b3-preview-reference"></span></div><p id="b3-preview-warning" class="secondary-note"></p><div class="table-wrap" id="b3-preview-positions-wrap"><table><thead><tr><th>Ativo</th><th>Classe</th><th>Qtd.</th><th>Preço atual</th><th>Custo médio</th></tr></thead><tbody id="b3-preview-positions"></tbody></table><p class="secondary-note" id="b3-preview-foot"></p></div>
+<div id="b3-preview-income" hidden><div class="preview-heading"><strong>Proventos previstos</strong><span id="b3-preview-income-total"></span></div><div class="asset-movements" id="b3-preview-income-list"></div></div><div class="form-actions"><button class="button" id="b3-cancel-import" type="button">Cancelar</button><button class="button primary" id="b3-apply-import" type="button">Aplicar importação</button></div></div></article>
+      </section>
+
+      <section class="panel" data-view="tools" aria-label="Calculadoras">
+        <div class="calculator-grid">
+          <article class="card card-pad calculator"><div class="card-title"><div><h2>Juros compostos</h2><p>Calcule com suas premissas</p></div><span class="tool-icon">∑</span></div><div class="tool-fields two"><label class="field"><span>Valor inicial (R$)</span><input id="calc-initial" type="number" min="0" step="100" placeholder="0"></label><label class="field"><span>Aporte mensal (R$)</span><input id="calc-monthly" type="number" min="0" step="50" placeholder="0"></label><label class="field"><span>Taxa anual (%)</span><input id="calc-rate" type="number" min="0" max="100" step="0.1" placeholder="0"></label><label class="field"><span>Prazo (anos)</span><input id="calc-years" type="number" min="1" max="80" step="1"></label></div><div class="calc-result"><span>Saldo futuro estimado</span><strong id="calc-result">—</strong><small id="calc-invested">Informe os valores para calcular.</small></div><div class="calc-result"><span>Aporte mensal para atingir a meta de R$ 1 milhão</span><strong id="calc-million-monthly">—</strong></div></article>
+          <article class="card card-pad calculator"><div class="card-title"><div><h2>Renda de proventos</h2><p>Estimativa a partir dos seus parâmetros</p></div><span class="tool-icon">＄</span></div><div class="tool-fields"><label class="field"><span>Meta mensal (R$)</span><input id="dividend-target" type="number" min="1" step="50" placeholder="0"></label><label class="field"><span>DY anual (%)</span><input id="dividend-yield" type="number" min="0.1" max="50" step="0.1" placeholder="0"></label></div><div class="calc-result"><span>Patrimônio estimado</span><strong id="dividend-capital">—</strong><small>Projeção matemática, não previsão de pagamentos.</small></div></article>
+          <article class="card card-pad calculator"><div class="card-title"><div><h2>Reserva de emergência</h2><p>Dimensione pela despesa mensal</p></div><span class="tool-icon">◷</span></div><div class="tool-fields"><label class="field"><span>Despesa essencial mensal (R$)</span><input id="reserve-expenses" type="number" min="1" step="100" placeholder="0"></label><label class="field"><span>Meses de cobertura</span><input id="reserve-months" type="number" min="1" max="36" step="1"></label></div><div class="calc-result"><span>Reserva-alvo</span><strong id="reserve-target">—</strong></div></article>
+        </div>
+        <article class="card section-card"><div class="page-toolbar"><div><strong>Top listas de mercado</strong><p class="screen-summary">Rankings no método do Investidor10, calculados com a fonte pública (Fundamentus + classificação B3): atualizado no máx. a cada 6 h.</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><select class="watch-add" id="ranking-setor" aria-label="Filtrar por setor B3"><option value="">Todos os setores</option></select><select class="watch-add" id="ranking-segmento" aria-label="Filtrar por segmento"><option value="">Todos os segmentos</option></select><select class="watch-add" id="ranking-select" aria-label="Escolha a lista"><option value="lucrativas">Nunca Tiveram Prejuízo</option><option value="graham">Mais Baratas - Graham</option><option value="bazin">Mais Baratas - Bazin</option><option value="dy">Ranking de Maior DY</option><option value="buyhold">Ranking Buy&nbsp;and&nbsp;Hold</option><option value="cap">Maior Valor de Mercado</option><option value="queridas">As Mais Queridas</option><option value="lucro">Empresas de Maior Lucro</option><option value="receita">Empresas de Maior Receita</option><option value="margem">Margem Líquida</option><option value="smallcaps">Lista de Small Caps</option><option value="favoritos">Meus favoritos (watchlist)</option></select><button class="button" id="ranking-load" type="button">Carregar lista</button></div></div><div class="table-wrap"><table><thead><tr id="ranking-head"></tr></thead><tbody id="ranking-body"></tbody></table><p class="empty" id="ranking-empty">Escolha uma lista e clique em Carregar.</p></div><div class="ranking-about" id="ranking-about"></div><p class="screen-summary" id="ranking-note" style="padding:9px 18px 14px"></p></article>
+        <article class="card section-card"><div class="page-toolbar"><div><strong>Comparador de ativos</strong><p class="screen-summary">Indicadores lado a lado com a mesma fonte das Top listas (Fundamentus + classificação B3).</p></div><div style="display:flex;gap:8px;flex-wrap:wrap"><select class="watch-add" id="compare-a" aria-label="Primeiro ativo"><option value="">Ativo A</option></select><select class="watch-add" id="compare-b" aria-label="Segundo ativo"><option value="">Ativo B</option></select><button class="button" id="compare-run" type="button">Comparar</button></div></div><div class="compare-verdict" id="compare-verdict" hidden tabindex="0"><span class="verdict-title" id="compare-verdict-title"></span><small id="compare-verdict-subtitle"></small><div class="verdict-tooltip" id="compare-verdict-tooltip" role="tooltip"></div></div><div class="table-wrap"><table><thead><tr><th>Indicador</th><th id="compare-head-a">Ativo A</th><th id="compare-head-b">Ativo B</th></tr></thead><tbody id="compare-body"></tbody></table><p class="empty" id="compare-empty">Escolha dois ativos e clique em Comparar.</p></div><p class="screen-summary" id="compare-note" style="padding:9px 18px 14px"></p></article>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="modal" id="transaction-modal" aria-labelledby="modal-title"><form class="modal-content" id="transaction-form">
+    <div class="modal-header"><div><h2 id="modal-title">Lançar movimentação</h2><p>O registro fica salvo somente neste navegador.</p></div><button type="button" class="close-button" data-close-modal aria-label="Fechar">×</button></div>
+    <div class="form-grid"><div class="field"><label for="transaction-type">Tipo</label><select id="transaction-type" required><option value="Compra">Compra</option><option value="Venda">Venda</option><option value="Provento">Provento</option></select></div><div class="field"><label for="transaction-date">Data</label><input id="transaction-date" type="date" required></div><div class="field"><label for="transaction-ticker">Ativo</label><input id="transaction-ticker" maxlength="14" placeholder="Ex.: ITSA4" required></div><div class="field" id="category-field"><label for="transaction-category">Classe</label><select id="transaction-category"><option>Ações</option><option>FIIs</option><option>ETFs</option><option>BDRs</option><option>Fiagros</option><option>Renda fixa</option><option>Cripto</option><option>Outros</option></select></div><div class="field" id="quantity-field"><label for="transaction-quantity">Quantidade</label><input id="transaction-quantity" type="number" min="0.000001" step="any" placeholder="0" required></div><div class="field"><label for="transaction-price" id="price-label">Preço unitário (R$)</label><input id="transaction-price" type="number" min="0.01" step="0.01" placeholder="0,00" required></div><div class="field" id="fee-field"><label for="transaction-fees">Taxas (R$)</label><input id="transaction-fees" type="number" min="0" step="0.01" value="0"></div></div>
+    <div class="form-actions"><button type="button" class="button" data-close-modal>Cancelar</button><button class="button primary" type="submit">Salvar movimentação</button></div>
+  </form></dialog>
+  <dialog class="modal" id="quote-modal" aria-labelledby="quote-modal-title"><form class="modal-content" id="quote-form"><div class="modal-header"><div><h2 id="quote-modal-title">Atualizar preço e custo médio</h2><p>Preço observado no extrato/relatório e custo médio (opcional), conforme sua corretora.</p></div><button type="button" class="close-button" data-close-quote aria-label="Fechar">×</button></div><div class="form-grid"><div class="field"><label for="quote-ticker">Ativo</label><input id="quote-ticker" readonly></div><div class="field"><label for="quote-price">Preço atual (R$)</label><input id="quote-price" type="number" min="0.0001" step="any" required></div><div class="field"><label for="quote-average">Preço médio (opcional)</label><input id="quote-average" type="number" min="0" step="any" placeholder="Custo médio do ativo, se souber"></div><div class="field"><label for="quote-target">Preço-alvo (opcional)</label><input id="quote-target" type="number" min="0" step="any" placeholder="Sua meta de preço"></div><div class="field"><label for="quote-date">Data da cotação</label><input id="quote-date" type="date" required></div></div><div class="form-actions"><button type="button" class="button" data-close-quote>Cancelar</button><button class="button primary" type="submit">Salvar preço</button></div></form></dialog>
+  <dialog class="modal asset-modal" id="asset-modal" aria-labelledby="asset-modal-title">
+    <div class="modal-content">
+      <div class="modal-header"><div><h2 id="asset-modal-title">Ativo</h2><p id="asset-modal-subtitle">Movimentações e evolução recente do preço.</p></div><button type="button" class="close-button" data-close-asset aria-label="Fechar">×</button></div>
+      <div class="asset-chart-wrap"><svg id="asset-chart" viewBox="0 0 640 180" preserveAspectRatio="none" role="img" aria-label="Evolução do preço nos últimos 30 dias"><path id="asset-chart-area" class="chart-fill" d=""></path><path id="asset-chart-line" class="chart-line" d=""></path></svg><p class="screen-summary" id="asset-chart-status" style="padding:4px 0 0">Carregando histórico de 30 dias…</p></div>
+      <div class="asset-average"><label class="field"><span>Preço médio (R$)</span><input id="asset-average" type="number" min="0" step="any" placeholder="Sem custo conhecido"></label><button class="button primary" id="asset-save-average" type="button">Salvar custo médio</button></div>
+      <div class="asset-actions"><button class="button" id="asset-new-tx" type="button">＋ Nova movimentação</button></div>
+      <h3 class="asset-movements-title">Movimentações do ativo</h3>
+      <div class="asset-movements" id="asset-movements"></div>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="/js/boot.js"></script>
+</body>
+</html>
